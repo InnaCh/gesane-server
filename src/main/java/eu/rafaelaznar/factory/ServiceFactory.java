@@ -65,7 +65,6 @@ public class ServiceFactory {
             case "usuario":
                 UsuarioSpecificServiceImplementation oUsuarioService = new UsuarioSpecificServiceImplementation(oRequest);
                 switch (op) {
-
                     case "getallobjectsmetadata":
                         oReplyBean = oUsuarioService.getallobjectsmetadata();
                         break;
