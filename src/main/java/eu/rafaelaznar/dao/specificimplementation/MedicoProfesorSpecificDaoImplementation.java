@@ -34,12 +34,48 @@ package eu.rafaelaznar.dao.specificimplementation;
 
 import eu.rafaelaznar.bean.helper.MetaBeanHelper;
 import eu.rafaelaznar.dao.genericimplementation.TableGenericDaoImplementation;
+import eu.rafaelaznar.helper.Log4jHelper;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-public class PacienteSpecificDaoImplementation extends TableGenericDaoImplementation {
+/**
+ *
+ * @author a022583952e
+ */
+public class MedicoProfesorSpecificDaoImplementation extends TableGenericDaoImplementation  {
+       
 
-
-    public PacienteSpecificDaoImplementation(Connection oPooledConnection, MetaBeanHelper oPuserBean_security, String strWhere) throws Exception {
-        super("paciente", oPooledConnection, oPuserBean_security, strWhere);
+    public MedicoProfesorSpecificDaoImplementation(Connection oPooledConnection, MetaBeanHelper oPuserBean_security, String strWhere) throws Exception {
+        super("medico", oPooledConnection, oPuserBean_security, strWhere);
     }
+
+    
+    
+     public MetaBeanHelper getIDfromCentroMedico(int intCode) throws Exception {        
+        Statement oStatement = null;
+        ResultSet oResultSet = null;
+        MetaBeanHelper oMetaBeanHelper = null;
+        Connection oConnection = null;
+        try {
+            oStatement = (Statement) oConnection.createStatement();
+            String strSQL = "SELECT id FROM medico WHERE id_centrosanitario =" + intCode;
+            oMetaBeanHelper = (MetaBeanHelper) oStatement.executeQuery(strSQL);
+            //oMetaBeanHelper = (MetaBeanHelper) oResultSet;           
+        } catch (SQLException ex) {
+            String msg = this.getClass().getName() + ":" + (ex.getStackTrace()[0]).getMethodName() + " ob:" + ob;
+            Log4jHelper.errorLog(msg, ex);
+            throw new Exception(msg, ex);
+        } finally {
+            if (oResultSet != null) {
+                oResultSet.close();
+            }
+            if (oStatement != null) {
+                oStatement.close();
+            }
+        }
+        return oMetaBeanHelper;
+    }
+    
 }
