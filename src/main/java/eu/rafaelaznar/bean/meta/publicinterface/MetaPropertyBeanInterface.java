@@ -68,6 +68,5 @@ public @interface MetaPropertyBeanInterface {
     public int Width() default 2;
 
     public int MaxLength() default 255;
-
-
+    
 }
