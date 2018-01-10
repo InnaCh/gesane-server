@@ -53,6 +53,7 @@ import eu.rafaelaznar.dao.specificimplementation.ModalidadepisodioSpecificDaoImp
 import eu.rafaelaznar.dao.specificimplementation.PacienteAlumnoSpecificDaoImplementation;
 import eu.rafaelaznar.dao.specificimplementation.PacienteProfesorSpecificDaoImplementation;
 import eu.rafaelaznar.dao.specificimplementation.PacienteSpecificDaoImplementation;
+import eu.rafaelaznar.dao.specificimplementation.PacienteVisitanteSpecificDaoImplementation;
 import eu.rafaelaznar.dao.specificimplementation.ServicioSpecificDaoImplementation;
 import eu.rafaelaznar.dao.specificimplementation.TipopagoSpecificDaoImplementation;
 import eu.rafaelaznar.dao.specificimplementation.SexoSpecificDaoImplementation;
@@ -134,8 +135,11 @@ public class DaoFactory {
                         case 4:
                             oDao = (MetaDaoInterface) new PacienteAlumnoSpecificDaoImplementation(oConnection, oPuserBean_security, strWhere);
                             break;
+//                        case 5:
+//                            oDao = (MetaDaoInterface) new PacienteSpecificDaoImplementation(oConnection, oPuserBean_security, strWhere);
+//                            break;
                         case 5:
-                            oDao = (MetaDaoInterface) new PacienteSpecificDaoImplementation(oConnection, oPuserBean_security, strWhere);
+                            oDao = (MetaDaoInterface) new PacienteVisitanteSpecificDaoImplementation(oConnection, oPuserBean_security, strWhere);
                             break;
                     }
                 } else {
