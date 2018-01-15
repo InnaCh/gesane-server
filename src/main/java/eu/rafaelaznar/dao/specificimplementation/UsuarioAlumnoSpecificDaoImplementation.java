@@ -56,23 +56,15 @@ public class UsuarioAlumnoSpecificDaoImplementation extends TableGenericDaoImple
 
     private Integer idCentrosanitario = 0;
     private Integer idUsuario = 0;
-    private String nombreUsuario = null;
-    private String primerApellidoUsuario = null;
-    private String segundoApellidoUsuario = null;
-    private String emailUsuario = null;
-    
+ 
 
     public UsuarioAlumnoSpecificDaoImplementation(Connection oPooledConnection, MetaBeanHelper oPuserBean_security, String strWhere) throws Exception {
         super("usuario", oPooledConnection, oPuserBean_security, strWhere);
 
         UsuarioSpecificBeanImplementation oUsuario = (UsuarioSpecificBeanImplementation) oPuserBean_security.getBean();
         idUsuario = oUsuario.getId();
-        idCentrosanitario = oUsuario.getId_centrosanitario();
-        nombreUsuario = oUsuario.getNombre();
-        primerApellidoUsuario = oUsuario.getPrimer_apellido();
-        segundoApellidoUsuario = oUsuario.getSegundo_apellido();
-        emailUsuario = oUsuario.getEmail();
-        
+      
+
         //MetaBeanHelper oMetaBeanHelper = oUsuario.getObj_tipousuario();
         //CentrosanitarioSpecificBeanImplementation oCentrosanitario = (CentrosanitarioSpecificBeanImplementation) oMetaBeanHelper.getBean();
         strSQL = "SELECT * FROM usuario u WHERE u.id_centrosanitario = " + idCentrosanitario;
@@ -83,35 +75,34 @@ public class UsuarioAlumnoSpecificDaoImplementation extends TableGenericDaoImple
         PreparedStatement oPreparedStatement = null;
         ResultSet oResultSet = null;
         Integer iResult = 0;
-   
+     UsuarioSpecificBeanImplementation oUsuario =(UsuarioSpecificBeanImplementation)oBean;
         try { // Retocar metodo set-update para insetar solo Nombre, Apellidos y email
-                strSQL = "UPDATE " + ob ;
-                strSQL += " SET ";
-                strSQL += oBean.toPairs();
-                strSQL += " WHERE u.id = " + idUsuario;
-                oPreparedStatement = oConnection.prepareStatement(strSQL, Statement.RETURN_GENERATED_KEYS);
-                oPreparedStatement.setInt(1, oBean.getId());
-                iResult = oPreparedStatement.executeUpdate();
-            
+            strSQL = "UPDATE " + ob + " u";
+            strSQL += " SET ";
+            strSQL += oBean.toPairs();
+            strSQL += " WHERE u.id = " + idUsuario ;
+            oPreparedStatement = oConnection.prepareStatement(strSQL, Statement.RETURN_GENERATED_KEYS);
+            iResult = oPreparedStatement.executeUpdate();
+
             if (iResult < 1) {
                 String msg = this.getClass().getName() + ": set";
                 Log4jHelper.errorLog(msg);
                 throw new Exception(msg);
             }
-          
+
         } catch (Exception ex) {
             String msg = this.getClass().getName() + ":" + (ex.getStackTrace()[0]).getMethodName() + " ob:" + ob;
             Log4jHelper.errorLog(msg, ex);
             throw new Exception(msg, ex);
         } finally {
-            
+
             if (oPreparedStatement != null) {
                 oPreparedStatement.close();
             }
         }
         return iResult;
     }
-    
+
     @Override
     public Long getCount(ArrayList<FilterBeanHelper> alFilter) throws Exception {
         strSQL = "SELECT COUNT(*) FROM usuario u WHERE u.id_centrosanitario = " + idCentrosanitario;
